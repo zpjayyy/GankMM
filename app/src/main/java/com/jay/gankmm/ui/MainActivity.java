@@ -3,22 +3,32 @@ package com.jay.gankmm.ui;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.jay.gankmm.R;
 import com.jay.gankmm.adapter.MeiziListAdapter;
+import com.jay.gankmm.data.MeiziData;
+import com.jay.gankmm.data.VideoData;
 import com.jay.gankmm.face.OnMeiziTouchListener;
 import com.jay.gankmm.model.Meizi;
 import com.jay.gankmm.ui.base.SwipeRefreshBaseActivity;
 import java.util.ArrayList;
 import java.util.List;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by jay on 16/2/15.
  */
 public class MainActivity extends SwipeRefreshBaseActivity {
+
+  private static final String TAG = "MainActivity";
 
   private static final int PRELOAD_SIZE = 6;
 
@@ -33,8 +43,8 @@ public class MainActivity extends SwipeRefreshBaseActivity {
     return R.layout.activity_main;
   }
 
-  @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-    super.onCreate(savedInstanceState, persistentState);
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
 
     mMeiziList = new ArrayList<>();
@@ -45,6 +55,7 @@ public class MainActivity extends SwipeRefreshBaseActivity {
   @Override protected void onPostCreate(Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
     new Handler().postDelayed(() -> setRefreshing(true), 365);
+    getData(true);
   }
 
   private void setUpRecyclerView() {
@@ -59,8 +70,30 @@ public class MainActivity extends SwipeRefreshBaseActivity {
 
   }
 
-  private void getData() {
+  private void getData(boolean clean) {
+    Subscription s = Observable.zip(sApiService.getMeiziData(mPage), sApiService.get休息视频Data(mPage),
+        (meiziData, videoData) -> createMeiziDataWithVideoDesc(meiziData, videoData))
+        .map(meiziData -> meiziData.results)
+        .flatMap(Observable::from)
+        .toSortedList((meizi, meizi2) -> meizi2.publishedAt.compareTo(meizi.publishedAt))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(meiziList -> {
+          if(clean) mMeiziList.clear();
+          mMeiziList.addAll(meiziList);
+          mMeiziListAdapter.notifyDataSetChanged();
+          setRefreshing(false);
+        }, throwable -> loadError(throwable));
 
+    addSubscription(s);
+  }
+
+  private void loadError(Throwable throwable) {
+    throwable.printStackTrace();
+    setRefreshing(false);
+    Snackbar.make(mRecyclerView, R.string.snap_load_fail, Snackbar.LENGTH_LONG)
+        .setAction(R.string.retry, v -> {requestDataRefresh();})
+        .show();
   }
 
   RecyclerView.OnScrollListener getScrollToBottomListener(
@@ -76,7 +109,7 @@ public class MainActivity extends SwipeRefreshBaseActivity {
           if(!mIsFirstTimeTouchBottom) {
             mSwipeRefreshLayout.setRefreshing(true);
             mPage += 1;
-            getData();
+            getData(false);
           }
         } else {
           mIsFirstTimeTouchBottom = false;
@@ -95,6 +128,20 @@ public class MainActivity extends SwipeRefreshBaseActivity {
 
       }
     };
+  }
+
+  private MeiziData createMeiziDataWithVideoDesc(MeiziData meiziData, VideoData videoData) {
+    for(int i = 0; i < meiziData.results.size(); i++) {
+      Meizi m = meiziData.results.get(i);
+      m.desc = m.desc + " " + videoData.results.get(i).desc;
+    }
+
+    return meiziData;
+  }
+
+  @Override public void requestDataRefresh() {
+    super.requestDataRefresh();
+    setRefreshing(false);
   }
 
   @Override protected void onDestroy() {

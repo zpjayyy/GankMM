@@ -2,6 +2,7 @@ package com.jay.gankmm.adapter;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import java.util.List;
  * Created by jay on 16/2/22.
  */
 public class MeiziListAdapter extends RecyclerView.Adapter<MeiziListAdapter.ViewHolder> {
+
+  private static final String TAG = "MeiziAdapter";
 
   private List<Meizi> mList;
   private OnMeiziTouchListener mOnMeiziTouchListener;

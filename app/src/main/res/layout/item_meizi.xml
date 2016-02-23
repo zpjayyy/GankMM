@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="1dp"
+    android:layout_marginRight="1dp"
+    android:layout_marginTop="2dp"
+    android:background="@drawable/bg_card">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/dv_meizi"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"/>
+        fresco:viewAspectRatio="0.6"
+        fresco:placeholderImage="@mipmap/ic_launcher"/>
 
 
     <TextView
