@@ -1,12 +1,14 @@
 package com.jay.gankmm.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
+import android.view.View;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.jay.gankmm.R;
@@ -123,11 +125,25 @@ public class MainActivity extends SwipeRefreshBaseActivity {
       if(meizi == null) return;
 
       if(v == meiziView) {
-
+        startPictureActivity(meizi, meiziView);
       } else if(v == card) {
-
+        Intent i = new Intent(MainActivity.this, GankActivity.class);
+        i.putExtra(GankActivity.EXTRA_GANK_DATE, meizi.publishedAt);
+        startActivity(i);
       }
     };
+  }
+
+
+  private void startPictureActivity(Meizi meizi, View transitView) {
+    Intent i = new Intent(MainActivity.this, PictureActivity.class);
+    i.putExtra(PictureActivity.EXTRA_IMAGE_URL, meizi.url);
+    i.putExtra(PictureActivity.EXTRA_IMAGE_TITLE, meizi.desc);
+
+    ActivityOptionsCompat optionsCompat =
+        ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, transitView,
+            PictureActivity.TRANSIT_PIC);
+    ActivityCompat.startActivity(MainActivity.this, i, optionsCompat.toBundle());
   }
 
   private MeiziData createMeiziDataWithVideoDesc(MeiziData meiziData, VideoData videoData) {
@@ -137,6 +153,10 @@ public class MainActivity extends SwipeRefreshBaseActivity {
     }
 
     return meiziData;
+  }
+
+  @Override public void onToolbarClick() {
+    mRecyclerView.smoothScrollToPosition(0);
   }
 
   @Override public void requestDataRefresh() {

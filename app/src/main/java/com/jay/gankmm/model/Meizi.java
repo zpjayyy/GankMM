@@ -1,5 +1,7 @@
 package com.jay.gankmm.model;
 
+import java.util.Date;
+
 /**
  * Created by jay on 16/2/22.
  */
@@ -18,7 +20,7 @@ public class Meizi {
    */
 
   public String who;
-  public String publishedAt;
+  public Date publishedAt;
   public String desc;
   public String type;
   public String url;

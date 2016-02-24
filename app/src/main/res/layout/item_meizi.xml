@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        fresco:viewAspectRatio="0.6"
+        fresco:viewAspectRatio="0.8"
         fresco:placeholderImage="@mipmap/ic_launcher"/>
 
 
