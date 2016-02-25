@@ -1,5 +1,6 @@
 package com.jay.gankmm.data;
 
+import com.google.gson.annotations.SerializedName;
 import com.jay.gankmm.model.Gank;
 import java.util.List;
 
@@ -12,12 +13,13 @@ public class GankData {
   public List<String> category;
 
   public class Result {
-    public List<Gank> androidList;
-    public List<Gank> 休息视频List;
-    public List<Gank> iOSList;
-    public List<Gank> 妹纸List;
-    public List<Gank> 拓展资源List;
-    public List<Gank> 瞎推荐List;
+    @SerializedName("Android") public List<Gank> AndroidList;
+    @SerializedName("iOS") public List<Gank> iOSList;
+    @SerializedName("瞎推荐") public List<Gank> 瞎推荐List;
+    @SerializedName("App") public List<Gank> AppList;
+    @SerializedName("拓展资源") public List<Gank> 拓展资源List;
+    @SerializedName("休息视频") public List<Gank> 休息视频List;
+    @SerializedName("福利") public List<Gank> 福利List;
   }
 
 }

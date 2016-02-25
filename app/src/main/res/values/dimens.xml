@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <dimen name="padding_gank_item">16dp</dimen>
+  <dimen name="padding_vertical_gank_item">8dp</dimen>
+  <dimen name="text_size_gank_category">18sp</dimen>
+  <dimen name="text_size_gank_title">14sp</dimen>
+
+</resources>
