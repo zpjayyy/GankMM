@@ -8,25 +8,24 @@ import java.util.Date;
 public class Meizi {
 
   /**
-   * who : 张涵宇
-   * publishedAt : 2016-02-22T04:20:23.542Z
-   * desc : 2.22
+   * _id : 56ce83f8421aa910e89d4379
+   * _ns : ganhuo
+   * createdAt : 2016-02-25T02:22:18.992000
+   * desc : 2.25
+   * publishedAt : null
    * type : 福利
-   * url : http://ww3.sinaimg.cn/large/7a8aed7bjw1f17x6wmh09j20f00m1mzh.jpg
+   * url : http://ww4.sinaimg.cn/large/7a8aed7bjw1f1bdal8i3nj20f00lf77g.jpg
    * used : true
-   * objectId : 56ca7707d342d300544b05d3
-   * createdAt : 2016-02-22T02:48:39.585Z
-   * updatedAt : 2016-02-22T04:20:24.577Z
+   * who : 张涵宇
    */
 
-  public String who;
-  public Date publishedAt;
+  public String _id;
+  public String _ns;
+  public Date createdAt;
   public String desc;
+  public Object publishedAt;
   public String type;
   public String url;
   public boolean used;
-  public String objectId;
-  public String createdAt;
-  public String updatedAt;
-
+  public String who;
 }

@@ -77,7 +77,7 @@ public class MainActivity extends SwipeRefreshBaseActivity {
         (meiziData, videoData) -> createMeiziDataWithVideoDesc(meiziData, videoData))
         .map(meiziData -> meiziData.results)
         .flatMap(Observable::from)
-        .toSortedList((meizi, meizi2) -> meizi2.publishedAt.compareTo(meizi.publishedAt))
+        .toSortedList((meizi, meizi2) -> meizi2.createdAt.compareTo(meizi.createdAt))
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(meiziList -> {
@@ -128,7 +128,7 @@ public class MainActivity extends SwipeRefreshBaseActivity {
         startPictureActivity(meizi, meiziView);
       } else if(v == card) {
         Intent i = new Intent(MainActivity.this, GankActivity.class);
-        i.putExtra(GankActivity.EXTRA_GANK_DATE, meizi.publishedAt);
+        i.putExtra(GankActivity.EXTRA_GANK_DATE, meizi.createdAt);
         startActivity(i);
       }
     };

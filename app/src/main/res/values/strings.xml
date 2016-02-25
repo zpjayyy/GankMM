@@ -4,4 +4,6 @@
   <string name="snap_load_fail">加载失败，请重试</string>
   <string name="retry">重试</string>
   <string name="ask_saving_picture">保存到手机?</string>
+  <string name="content_is_empty">今天没得干货了~~~</string>
+
 </resources>

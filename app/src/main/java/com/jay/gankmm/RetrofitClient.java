@@ -23,7 +23,7 @@ public class RetrofitClient {
   final ApiService service;
 
   final static Gson gson =
-      new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").serializeNulls().create();
+      new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").serializeNulls().create();
 
   public RetrofitClient() {
     OkHttpClient client = new OkHttpClient().newBuilder()
