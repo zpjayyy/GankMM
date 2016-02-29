@@ -1,5 +1,6 @@
 package com.jay.gankmm.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.jay.gankmm.R;
 import com.jay.gankmm.model.Gank;
+import com.jay.gankmm.ui.WebActivity;
 import com.jay.gankmm.util.StringStyleUtils;
 import java.util.List;
 
@@ -70,6 +73,14 @@ public class GankListAdapter extends RecyclerView.Adapter<GankListAdapter.ViewHo
     public ViewHolder(View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
+    }
+
+    @OnClick(R.id.ll_gank_parent) void onGank(View v) {
+      Gank gank = mGankList.get(getLayoutPosition());
+      Intent intent = new Intent(v.getContext(), WebActivity.class);
+      intent.putExtra(WebActivity.EXTRA_URL, gank.url);
+      intent.putExtra(WebActivity.EXTRA_TITLE, gank.desc);
+      v.getContext().startActivity(intent);
     }
   }
 }

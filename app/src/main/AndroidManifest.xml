@@ -19,13 +19,11 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".ui.PictureActivity">
+    <activity android:name=".ui.PictureActivity"/>
 
-    </activity>
-    
-    <activity android:name=".ui.GankActivity">
+    <activity android:name=".ui.GankActivity"/>
 
-    </activity>
+    <activity android:name=".ui.WebActivity"/>
 
   </application>
 
